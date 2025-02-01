@@ -1,5 +1,6 @@
 """ Module that will store all the database that will be represented by a collection of classes"""
 
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timezone
 from typing import Optional
 from app import db
@@ -21,6 +22,13 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+    # Password hashing and verfication
+    def set_password(self, passwoord):
+        self.password_hash = generate_password_hash(password)
+
+    def chech_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 # Expend database to store blog posts with relationship to 'User'
 class Post(db.Model):
