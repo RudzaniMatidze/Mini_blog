@@ -80,13 +80,13 @@ class User(UserMixin, db.Model):
         return db.session.scalar(query)
 
     # Following posts query
-    def following_posts(sef):
+    def following_posts(self):
         Author = so.aliased(User)
         Follower = so.aliased(User)
         return(
             sa.select(Post)
             .join(Post.author.of_type(Author))
-            .join(Author.followers.of_type(followers), isouter=True)
+            .join(Author.followers.of_type(Follower), isouter=True)
             .where(sa.or_(
                 Follower.id == self.id,
                 Author.id == self.id,
