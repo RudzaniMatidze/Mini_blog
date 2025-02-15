@@ -4,29 +4,26 @@ from flask import render_template, flash, redirect, url_for, request
 from urllib.parse import urlsplit
 from flask_login import logout_user, login_required, current_user, login_user
 from datetime import datetime, timezone
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm
-from app.models import User
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm
+from app.models import User, Post
 import sqlalchemy as sa
 from app import app, db
 
 # Create an index route
-@app.route('/')
-@app.route('/index')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    # Create a Mock objects used to test application
-    user = { 'username': 'Rudzani'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Johannesburg!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'Coding is so interesting!'
-        }
-    ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is live!')
+        return redirect(url_for('index'))
+    # Replace Mock objects with real posts
+    posts = db.session.scalars(current_user.following_posts()).all()
+    return render_template('index.html', title='Home Page', form=form, posts=posts)
 
 # Create a login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -80,7 +77,7 @@ def user(username):
         {'author': user, 'body': 'Test post #2'}
     ]
     form = EmptyForm()
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', user=user, posts=posts, form=form)
 
 # Create edit user profile route
 @app.route('/edit_profile', methods=["GET", "POST"])
@@ -149,3 +146,11 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+
+# Create explore view function
+@app.route('/explore')
+@login_required
+def explore():
+    query = sa.select(Post).order_by(Post.timestamp.desc())
+    posts = db.session.scalars(query).all()
+    return render_template('index.html', title='Explore', posts=posts)
