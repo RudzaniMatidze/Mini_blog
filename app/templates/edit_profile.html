@@ -20,5 +20,5 @@
         </p>
         <p>{{ form.submit }}</p>
     </form>
-    
+    <a href="{{ url_for('user', username=current_user.username) }}">Back</a>
 {% endblock %}
