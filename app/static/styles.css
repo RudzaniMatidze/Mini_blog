@@ -1,0 +1,78 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Navbar */
+div {
+    background-color: #007bff;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+div a {
+    color: #7140c0;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+div a:hover {
+    text-decoration: underline;
+}
+
+/* Flash Messages */
+ul {
+    list-style-type: none;
+    padding: 10px;
+    background-color: #fff3cd;
+    border-left: 5px solid #ffc107;
+    border-radius: 5px;
+}
+
+/* Horizontal Rule */
+hr {
+    border: 1px solid #ddd;
+}
+
+/* Block Content */
+.block-content {
+    padding: 20px;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Post Styling */
+.post {
+    background: #ffffff;
+    border-left: 5px solid #007bff;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.post p {
+    margin: 5px 0;
+}
+
+/* Pagination Links */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.pagination a:hover {
+    text-decoration: underline;
+}
