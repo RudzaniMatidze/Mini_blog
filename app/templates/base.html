@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         {% if title %}
         <title>{{ title }} - Miniblog</title>
         {% else %}
         <title>Welcome to Miniblog</title>
         {% endif %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">  
     </head>
     <body>
         <div>
@@ -30,5 +33,6 @@
         {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}
+        {{ moment.include_moment() }}
     </body>
 </html>
